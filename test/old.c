@@ -17,7 +17,7 @@ static unsigned short STACK[STACK_SIZE];
 static unsigned int SP = 0;
 
 struct Block {
-    unsigned char value;
+    char value;
     struct Block* next;
     struct Block* parent;
 } UwU = {0, NULL, NULL};
@@ -44,54 +44,67 @@ int main(int argc, char *argv[]) {
     // Use current time as seed for random generator
     srand(time(0));
 
-    // TODO: convert char to UTF-8 emojis
-
     // inital way
     unsigned char code[32768] = {0};
 
-    int currInputChar;
-    int *inputCounter = code;
-    int counter = 0;
+    unsigned char currInputChar;
+    int initCounter = 0;
+    int charCounter = 0;
     while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
-        *inputCounter = currInputChar;
-        inputCounter++;
-        counter++;
+        code[initCounter] = currInputChar;
+        charCounter++;
+        initCounter++;
     }
+    // FILE *fptr;
+    // // get from cin or file
+    // if (argc == 1) {
+    //     while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
+    //         *inputCounter = currInputChar;
+    //         inputCounter++;
+    //         counter++;
+    //     }
+    // } else {
+    //     // open file
+    //     printf("%s", argv[1]);
+    //     fptr = fprintf(argv[1],"%c", code);
+    //     fclose(fptr);
+    // }
 
     int jump_table[32768] = {0};
-    int *preCounter = code;
+    int counter = 0;
     // hash map for pre-complied [] blocks
-    for (int i = 0; i < counter / 4 + 1; i++) {
-        if (*preCounter == 240 && *(preCounter+1) == 159 && *(preCounter+2) == 152 &&  *(preCounter+2) == 146) {
+    for (int i = 0; i < charCounter / 4 + 1; i++) {
+        if (code[counter] == 240 && code[counter+1] == 159 && code[counter+2] == 152 &&  code[counter+3] == 146) {
             STACK_PUSH(i);
-        } else if (*preCounter == 240 && *(preCounter+1) == 159 && *(preCounter+2) == 152 &&  *(preCounter+2) == 161) {
+        } else if (code[counter] == 240 && code[counter+1] == 159 && code[counter+2] == 152 &&  code[counter+3] == 161) {
             int start = STACK_POP();
             jump_table[start] = i;
             jump_table[i] = start;
         }
         // currChar == 152 && nextChar == 161
-        preCounter+=4;
+        counter+=4;
     }
 
-    int *pc = code;
     int ptr = 0;
+    int codePtr = 0;
     int currChar, nextChar;
-    while (*pc != EOF && *pc != '\n' && *pc != '\0') {
+    while (code[ptr] != EOF && code[ptr] != '\n' && code[ptr] != '\0') {
+        // printf("%d: %d %d %d %d\n", ptr, code[ptr], code[ptr + 1], code[ptr + 2], code[ptr + 3]);
         // if not emoji continue
-        if (*pc != 240) {
-            pc++;
+        if (code[ptr] != 240) {
+            ptr++;
             continue;
         }
-        pc++;
-        if (*pc != 159) {
-            if (*pc == '\n') break;
-            pc++;
+        ptr++;
+        if (code[ptr] != 159) {
+            if (code[ptr] == '\n') break;
+            ptr++;
             continue;
         }
-        pc++;
+        ptr++;
         // printf("%d", *pc);
-        currChar = *pc;
-        nextChar = *(++pc);
+        currChar = code[ptr];
+        nextChar = code[ptr+1];
         // printf("%d", curr.value);
         if (currChar == 145 && nextChar == 134) {
             if (curr->value < 255) curr->value++;
@@ -103,7 +116,7 @@ int main(int argc, char *argv[]) {
         }
         else if (currChar == 165 && nextChar == 186) {
             // putchar(curr->value);
-            printf("%c", curr->value + 72);
+            printf("%c", curr->value);
         }
         else if (currChar == 152 && nextChar == 179) curr->value = getchar();
         else if (currChar == 145 && nextChar == 137) curr = next(curr);
@@ -115,22 +128,19 @@ int main(int argc, char *argv[]) {
             curr->value = rand() % 128;
         } else if (currChar == 152 && nextChar == 146 && curr->value == 0) {
             // [
-            // get ptr to right place
-            // for (int k = ptr; k < jump_table[ptr]; k++) {
-            //     pc-=4;
-            // }
-            curr->value = jump_table[curr->value]; // get hashed value
+            printf("%d %d\n", jump_table[codePtr], codePtr);
+            
+            ptr = jump_table[codePtr] * 4 + 2; // get hashed value
+            codePtr = jump_table[codePtr];
         } else if (currChar == 152 && nextChar == 161 && curr->value != 0) {
             // 😡 ]
-            // get ptr to right place
-            // for (int k = ptr; k > jump_table[ptr]; k--) {
-            //     pc-=4;
-            // }
-            curr->value = jump_table[curr->value]; // get hashed value
+            printf("%d %d\n", jump_table[codePtr], codePtr);
+            ptr = jump_table[codePtr] * 4 + 2; // get hashed value
+            codePtr = jump_table[codePtr];
         }
 
-        pc++;
-        ptr++;
+        ptr+=2;
+        codePtr++;
     }
 
     // dealloc from head
