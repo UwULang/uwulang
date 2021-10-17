@@ -1,3 +1,8 @@
+'''
+Doesn't actually work, use golang version 💩
+
+'''
+
 hashtable = {
     "+": "👆",
     "-": "👇",
@@ -8,8 +13,8 @@ hashtable = {
     "?": "🥴",
     "[": "😒",
     "]": "😡",
-    '\n': ' ',
-    '\0': ' ',
+    '\n': '',
+    '\0': '',
 }
 
 def convert(item):
@@ -17,15 +22,15 @@ def convert(item):
 
 def main():
     items = input()
-    print(''.join(list(map(convert, items))))
+    output = ''
+    for item in items:
+        output += hashtable[item]
+    # print(''.join(list(map(convert, items))))
 
+    print(output)
     # for item in items:
     #     print(item)
     return
 
 if __name__ == "__main__":
     main()
-
-# ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
-# 👆👆👆👆👆👆👆👆😒👉👆👆👆👆😒👉👆👆👉👆👆👆👉👆👆👆👉👆👈👈👈👈👇😡👉👆👉👆👉👇👉👉👆😒👈😡👈👇😡👉👉🥺👉👇👇👇🥺👆👆👆👆👆👆👆🥺🥺👆👆👆🥺👉👉🥺👈👇🥺👈🥺👆👆👆🥺👇👇👇👇👇👇🥺👇👇👇👇👇👇👇👇🥺👉👉👆🥺👉👆👆🥺
-
