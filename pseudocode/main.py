@@ -1,7 +1,17 @@
 import random
+import sys
 
 def main():
-    code = input()
+    code = ''
+    if len(sys.argv) == 1: code = input()
+    else:
+        # try and open argv0
+        try:
+            with open(sys.argv[1], 'r', encoding="utf-8") as fp:
+                code = fp.read()
+        except:
+            raise FileExistsError()
+
     # code
     OwO = [i for i in code]
 

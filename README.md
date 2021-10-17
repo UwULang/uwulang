@@ -22,6 +22,10 @@ Some simple scripts to try out! If you don't have c, try it out with the Python 
 
 
 
+#### Python
+
+To run with Python, you can just run the script `main.py` and paste in the code all in one line in standard in or provide the file name as a command argument ie `py main.py hellOwOrld.uwu`
+
 ### Hello World
 
 ```uwu
