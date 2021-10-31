@@ -18,7 +18,7 @@ The best programming language to take over the world
 
 ## Try it Out
 
-Some simple scripts to try out! If you don't have c, try it out with the Python version in `./pseudocode/main.py`, otherwise running it in c with `gcc main.c -Wall -std=c99 -o main`
+Some simple scripts to try out! If you don't have c, try it out with the Python version in `./pseudocode/main.py`, otherwise running it in c with `gcc main.c -Wall -std=c99 -o main` (You need to build first). Once you have the binary, if you provide a file as the first arg, it will take the contents of the file and run UwULang on it (must be 1 line)
 
 
 
