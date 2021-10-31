@@ -18,7 +18,7 @@ The best programming language to take over the world
 
 ## Try it Out
 
-Some simple scripts to try out! If you don't have c, try it out with the Python version in `./pseudocode/main.py`, otherwise running it in c with `gcc main.c -Wall -std=c99 -o main` (C is broke someone go fix it 🥺)
+Some simple scripts to try out! If you don't have c, try it out with the Python version in `./pseudocode/main.py`, otherwise running it in c with `gcc main.c -Wall -std=c99 -o main`
 
 
 

@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define STACK_SIZE      512
 
@@ -53,25 +54,26 @@ int main(int argc, char *argv[]) {
     unsigned char currInputChar;
     int initCounter = 0;
     int charCounter = 0;
-    while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
-        code[initCounter] = currInputChar;
-        charCounter++;
-        initCounter++;
+    FILE *fp;
+    // get from cin or file
+    if (argc == 1) {
+        while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
+            code[initCounter] = currInputChar;
+            charCounter++;
+            initCounter++;
+        }
+    } else {
+        // open file
+        fp = fopen(argv[1], "r");
+        if (!fp) {
+            printf("Error in opening file!\n");
+            return 1;
+        }
+        fscanf(fp, "%s", code);
+        charCounter = strlen((char*)code);
+        fclose(fp);
     }
-    // FILE *fptr;
-    // // get from cin or file
-    // if (argc == 1) {
-    //     while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
-    //         *inputCounter = currInputChar;
-    //         inputCounter++;
-    //         counter++;
-    //     }
-    // } else {
-    //     // open file
-    //     printf("%s", argv[1]);
-    //     fptr = fprintf(argv[1],"%c", code);
-    //     fclose(fptr);
-    // }
+    
 
     int jump_table[32768] = {0};
     int counter = 0;
@@ -152,7 +154,7 @@ int main(int argc, char *argv[]) {
     // since struct is statically defined, no need to dealloc
 
     // new line
-    putchar('\n');
+    // putchar('\n');
 
 
     return 0;
