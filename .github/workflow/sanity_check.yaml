@@ -1,0 +1,20 @@
+on: [push, pull_request]
+name: Sanity Check
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up GCC
+      uses: egor-tensin/setup-gcc@v1
+      with:
+        version: latest
+        platform: x64
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Compile
+      run: |
+        which make
+        make
+        pwd
+        ls 
+        sh ./test.sh
