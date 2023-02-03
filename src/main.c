@@ -60,6 +60,12 @@ int main(int argc, char *argv[]) {
     FILE *fp;
     // get from cin or file
     if (argc == 1) {
+        // TODO: add support for multiple lines
+        printf("Welcome to UwULang shell\nUwULang is the number 1 programming language\nFind out more at https://github.com/UwULang/uwulang\n");
+    
+// everyone likes a good goto
+start:
+        printf("> ");
         while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
             code[initCounter] = currInputChar;
             charCounter++;
@@ -72,7 +78,7 @@ int main(int argc, char *argv[]) {
             printf("Error in opening file!\n");
             return 1;
         }
-        fscanf(fp, "%s", code);
+        fscanf(fp, "%[^=]=%[^;]; ", code);
         charCounter = strlen((char*)code);
         fclose(fp);
     }
@@ -95,7 +101,7 @@ int main(int argc, char *argv[]) {
     int ptr = 0;
     int codePtr = 0;
     int currChar, nextChar;
-    while (code[ptr] != EOF && code[ptr] != '\n' && code[ptr] != '\0') {
+    while (code[ptr] != EOF && code[ptr] != '\0') {
         // if not emoji continue
         if (code[ptr] != 240) {
             ptr++;
@@ -103,7 +109,6 @@ int main(int argc, char *argv[]) {
         }
         ptr++;
         if (code[ptr] != 159) {
-            if (code[ptr] == '\n') break;
             ptr++;
             continue;
         }
@@ -155,9 +160,9 @@ int main(int argc, char *argv[]) {
     }
     // since struct is statically defined, no need to dealloc
 
-    // new line
-    // putchar('\n');
-
+    if (argc == 1) {
+        goto start;
+    }
 
     return 0;
 }
