@@ -11,7 +11,7 @@ The best programming language to take over the world
 - 🥺- print char
 - 😳- get char
 - 🥴- random short
-- 😒- jump to 😡if curr == 0
+- 😒- jump to 😡 if curr == 0
 - 😡- jump back to 😒 if curr != 0
 
 \*definitely not just [brainfuck](https://esolangs.org/wiki/Brainfuck) with extended functionality that you can use [uwufier](https://github.com/Zeyu-Li/uwufier) conversion tool
@@ -38,7 +38,7 @@ Print the first 10000 square numbers
 
 ## Conversion
 
-If you want to convert bf files to UwU files, note the conversion script in `./pseudocode` does not work, use the [Golang version](https://github.com/Zeyu-Li/uwufier) instead
+If you want to convert bf files to UwU files use the [UwUfier](https://github.com/UwULang/uwufier)
 
 ## License
 
