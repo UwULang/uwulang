@@ -23,13 +23,13 @@ jobs:
         make
         sh ./test/test.sh
     - name: Benchmarking
-      if: ${{ !(github.event_name == 'pull_request') }}
+      if: ${{ (github.event_name == 'pull_request') }}
       run: |
         echo "GCC Build Analytics ⌚:" > output.txt
         { time make > /dev/null 2>&1 ; } 2>> output.txt
         COMMENT="$(cat output.txt)"
     - name: Benchmarking Comment
-      if: ${{ !(github.event_name == 'pull_request') }}
+      if: ${{ (github.event_name == 'pull_request') }}
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: output.txt
