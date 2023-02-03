@@ -227,7 +227,7 @@ example.
 
 ### Random (🥴)
 
-Returns a random short (up to 128) and stores it in the current cell
+Returns a random short (up to 128) and stores it in the current cell. Implementation of this is optional.
 
 ## Other Characters
 
