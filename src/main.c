@@ -154,6 +154,8 @@ int event_loop(int argc, char *argv[]) {
         free(deletePtr);
     }
     // since struct is statically defined, no need to dealloc
+
+    return 0;
 }
 
 /// Main takes in either a single file with file extension uwu
