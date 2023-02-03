@@ -24,7 +24,7 @@ struct Block {
     unsigned char value;
     struct Block* next;
     struct Block* parent;
-} UwU = {0, NULL, NULL};
+};
 
 struct Block* next(struct Block* curr) {
     if (curr->next != NULL) {
@@ -43,13 +43,15 @@ struct Block* next(struct Block* curr) {
     }
 }
 
-/// Main takes in either a single file with file extension uwu
-/// or if no args are present will run interpreted on the command line
-int main(int argc, char *argv[]) {
-    struct Block* head = &UwU;
-    struct Block* curr = &UwU;
+int event_loop(int argc, char *argv[]) {
     // Use current time as seed for random generator
     srand(time(0));
+    FILE *fp;
+    
+    struct Block UwU = {0, NULL, NULL};
+
+    struct Block* head = &UwU;
+    struct Block* curr = &UwU;
 
     // inital way
     unsigned char code[32768] = {0};
@@ -57,14 +59,7 @@ int main(int argc, char *argv[]) {
     unsigned char currInputChar;
     int initCounter = 0;
     int charCounter = 0;
-    FILE *fp;
-    // get from cin or file
     if (argc == 1) {
-        // TODO: add support for multiple lines
-        printf("Welcome to UwULang shell\nUwULang is the number 1 programming language\nFind out more at https://github.com/UwULang/uwulang\n");
-    
-// everyone likes a good goto
-start:
         printf("> ");
         while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
             code[initCounter] = currInputChar;
@@ -159,9 +154,20 @@ start:
         free(deletePtr);
     }
     // since struct is statically defined, no need to dealloc
+}
 
+/// Main takes in either a single file with file extension uwu
+/// or if no args are present will run interpreted on the command line
+int main(int argc, char *argv[]) {
+    // get from cin or file
     if (argc == 1) {
-        goto start;
+        // TODO: add support for multiple lines
+        printf("Welcome to UwULang shell\nUwULang is the number 1 programming language\nFind out more at https://github.com/UwULang/uwulang\n");
+        while (1) {
+            event_loop(argc, argv);
+        }
+    } else {
+        event_loop(argc, argv);
     }
 
     return 0;
