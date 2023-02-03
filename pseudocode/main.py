@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import random
 import sys
 
@@ -19,7 +20,7 @@ def main():
     UwU = [0]
     ptr = 0
 
-    # precomplie
+    # precompile
     front_ptr = 0
     back_ptr = len(OwO) - 1
     if code.count('😒') != code.count('😡'): raise Exception("Invalid")
@@ -36,7 +37,6 @@ def main():
             jump_table[start] = index
             jump_table[index] = start
 
-    # print(OwO)
     code_ptr = 0
     while code_ptr < len(OwO):
         item = OwO[code_ptr]

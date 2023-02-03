@@ -1,5 +1,8 @@
 /* 
-* UwULang (MIT)
+* UwULang, an esoteric programming language with emojis
+* More info on https://github.com/UwULang/uwulang 
+* Author: @Zeyu-Li 
+* License: MIT
 */ 
 #include <stdio.h>
 #include <stdint.h>
@@ -41,7 +44,7 @@ struct Block* next(struct Block* curr) {
 }
 
 /// Main takes in either a single file with file extension uwu
-/// or if no args are present will run interperted on the command line
+/// or if no args are present will run interpreted on the command line
 int main(int argc, char *argv[]) {
     struct Block* head = &UwU;
     struct Block* curr = &UwU;
@@ -93,7 +96,6 @@ int main(int argc, char *argv[]) {
     int codePtr = 0;
     int currChar, nextChar;
     while (code[ptr] != EOF && code[ptr] != '\n' && code[ptr] != '\0') {
-        // printf("%d: %d %d %d %d\n", ptr, code[ptr], code[ptr + 1], code[ptr + 2], code[ptr + 3]);
         // if not emoji continue
         if (code[ptr] != 240) {
             ptr++;
@@ -106,10 +108,10 @@ int main(int argc, char *argv[]) {
             continue;
         }
         ptr++;
-        // printf("%d", *pc);
+
         currChar = code[ptr];
         nextChar = code[ptr+1];
-        // printf("%d", curr.value);
+
         if (currChar == 145 && nextChar == 134) {
             if (curr->value < 255) curr->value++;
             else curr->value = 0;
@@ -159,7 +161,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
-// tests
-// >>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++. 
-// 👉👉👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆🥺
