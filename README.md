@@ -1,6 +1,5 @@
 # UwULang
 
-[![Benchmarking](https://github.com/UwULang/uwulang/actions/workflows/benchmarking.yaml/badge.svg)](https://github.com/UwULang/uwulang/actions/workflows/benchmarking.yaml)
 [![Sanity Check](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml/badge.svg)](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml)
 
 The best programming language to take over the world

@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [pull_request]
 name: Sanity Check
 jobs:
   sanity_check:
@@ -17,21 +17,10 @@ jobs:
         sh ./test/test.sh
     - name: Benchmarking
       run: |
-        { time make > /dev/null 2>&1 ; } 2> output.txt
+        echo "GCC Build Analytics ⌚:" > output.txt
+        { time make > /dev/null 2>&1 ; } 2>> output.txt
         COMMENT="$(cat output.txt)"
     - name: Benchmarking Comment
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: output.txt
-  # benchmarking:
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'pull_request'
-  #   needs: sanity_check
-  #   steps:
-  #   - name: Timeit
-  #     run: |
-  #       { time make > /dev/null 2>&1 ; } 2> output.txt
-  #   - name: Post benchmark results
-  #     run: |
-  #       COMMENT="$(cat output.txt)"
-  #       curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -X POST -d "{\"body\":\"\`\`\`$COMMENT\`\`\`\"}" "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"

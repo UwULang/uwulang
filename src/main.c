@@ -59,6 +59,8 @@ int event_loop(int argc, char *argv[]) {
     unsigned char currInputChar;
     int initCounter = 0;
     int charCounter = 0;
+    
+    // get from cin or file
     if (argc == 1) {
         printf("> ");
         while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
@@ -161,7 +163,6 @@ int event_loop(int argc, char *argv[]) {
 /// Main takes in either a single file with file extension uwu
 /// or if no args are present will run interpreted on the command line
 int main(int argc, char *argv[]) {
-    // get from cin or file
     if (argc == 1) {
         // TODO: add support for multiple lines
         printf("Welcome to UwULang shell\nUwULang is the number 1 programming language\nFind out more at https://github.com/UwULang/uwulang\n");
