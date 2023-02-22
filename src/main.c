@@ -10,6 +10,9 @@
 #include <time.h>
 #include <string.h>
 
+// program version
+#define VERSION         "0.1.0"
+
 #define STACK_SIZE      512
 
 #define STACK_PUSH(A)   (STACK[SP++] = A)
@@ -170,6 +173,24 @@ int main(int argc, char *argv[]) {
             event_loop(argc, argv);
         }
     } else {
+        // TODO: add support for args
+
+        // if -v or --version
+        if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
+            printf("UwULang %s\n", VERSION);
+            return 0;
+        }
+
+        // if -h or --help
+        if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+            printf("UwULang %s\n", VERSION);
+            printf("Usage: uwulang [file]\n");
+            printf("Options:\n");
+            printf("  -h, --help\t\tShow this help message\n");
+            printf("  -v, --version\t\tShow version\n");
+            return 0;
+        }
+
         event_loop(argc, argv);
     }
 
