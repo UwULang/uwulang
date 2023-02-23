@@ -2,7 +2,10 @@
 discord.txt
 pseudocode/test1.txt
 pseudocode/test.py
-uwulang
+/uwulang
 *.out
 output.txt
 img/plead.ai
+# builds
+/uwulang_*_all
+*.deb

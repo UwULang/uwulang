@@ -1,0 +1,8 @@
+Package: uwulang
+Version: 0.1.0
+Architecture: all
+Essential: no
+Priority: optional
+Maintainer: UwULang team (https://github.com/UwULang)
+Description: The best programming language to take over the world. 
+ It is a turing-complete language modelled after the measured UwUness of a programming language called BrainFuck
