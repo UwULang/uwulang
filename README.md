@@ -2,7 +2,7 @@
 
 [![Banner](./img/banner.png)](https://uwulang.vercel.app/)
 
-[![Sanity Check](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml/badge.svg)](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml)
+[![Sanity Check](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml/badge.svg)](https://github.com/UwULang/uwulang/actions/workflows/sanity_check.yaml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![GitHub Repo stars](https://img.shields.io/github/stars/UwULang/uwulang?style=social)
 
 The soon to be #1 programming language in the world. It is a turing-complete language modelled after the measured UwUness of a programming language called BrainFuck. Check out the [website](https://uwulang.vercel.app/) for more info! Alternatively, check out the [documentation](https://uwulang-docs.vercel.app/) for more info.
 
