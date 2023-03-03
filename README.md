@@ -99,6 +99,12 @@ Prints digits of the transcendental number e (this program is non terminating ie
 
 If you want to convert bf files to UwU files use the [Transpiler](https://uwulang.vercel.app/transpiler) or [UwUfier](https://github.com/UwULang/uwufier) written in Golang
 
+## Sponsors
+
+Our sponsors are the best! [Become a sponsor](https://github.com/sponsors/UwULang)
+
+- [Exanut](https://github.com/Exanut)
+
 ## License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
