@@ -99,7 +99,10 @@ Prints digits of the transcendental number e (this program is non terminating ie
 
 If you want to convert bf files to UwU files use the [Transpiler](https://uwulang.vercel.app/transpiler) or [UwUfier](https://github.com/UwULang/uwufier) written in Golang
 
-## Sponsors
+## Thanks
+
+Thanks to [Daniel Cristofani](http://www.hevanet.com/cristofd/) who created Brainfuck!
+### Sponsors
 
 Our sponsors are the best! [Become a sponsor](https://github.com/sponsors/UwULang)
 
