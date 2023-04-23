@@ -9,9 +9,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <argp.h>
 
 // program version
-#define VERSION         "0.1.0"
+#define VERSION         "0.1.1"
 
 #define STACK_SIZE      512
 
@@ -19,6 +20,9 @@
 #define STACK_POP()     (STACK[--SP])
 #define STACK_EMPTY()   (SP == 0)
 #define STACK_FULL()    (SP == STACK_SIZE)
+
+static char DOC[] = "UwULang, an esoteric programming language with emojis";
+const char *argp_program_version = VERSION;
 
 static unsigned short STACK[STACK_SIZE];
 static unsigned int SP = 0;
@@ -46,43 +50,14 @@ struct Block* next(struct Block* curr) {
     }
 }
 
-int event_loop(int argc, char *argv[]) {
+int event_loop(int charCounter, unsigned char code[]) {
     // Use current time as seed for random generator
     srand(time(0));
-    FILE *fp;
     
     struct Block UwU = {0, NULL, NULL};
 
     struct Block* head = &UwU;
     struct Block* curr = &UwU;
-
-    // inital way
-    unsigned char code[32768] = {0};
-
-    unsigned char currInputChar;
-    int initCounter = 0;
-    int charCounter = 0;
-    
-    // get from cin or file
-    if (argc == 1) {
-        printf("> ");
-        while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
-            code[initCounter] = currInputChar;
-            charCounter++;
-            initCounter++;
-        }
-    } else {
-        // open file
-        fp = fopen(argv[1], "r");
-        if (!fp) {
-            printf("Error in opening file!\n");
-            return 1;
-        }
-        fscanf(fp, "%[^=]=%[^;]; ", code);
-        charCounter = strlen((char*)code);
-        fclose(fp);
-    }
-    
 
     int jump_table[32768] = {0};
     int counter = 0;
@@ -126,8 +101,8 @@ int event_loop(int argc, char *argv[]) {
             else curr->value = 255;
         }
         else if (currChar == 165 && nextChar == 186) {
-            // putchar(curr->value);
-            printf("%c", curr->value);
+            putchar(curr->value);
+            // printf("%c", curr->value);
         }
         else if (currChar == 152 && nextChar == 179) curr->value = getchar();
         else if (currChar == 145 && nextChar == 137) curr = next(curr);
@@ -163,36 +138,91 @@ int event_loop(int argc, char *argv[]) {
     return 0;
 }
 
+int file_entry(char* filename) {
+    // inital way
+    unsigned char code[32768] = {0};
+
+    int charCounter = 0;
+    FILE *fp;
+    // open file
+    fp = fopen(filename, "r");
+    if (!fp) {
+        printf("Error in opening file!\n");
+        return 1;
+    }
+    fscanf(fp, "%[^=]=%[^;]; ", code);
+    charCounter = strlen((char*)code);
+    fclose(fp);
+    event_loop(charCounter, code);
+    return 0;
+}
+
+void cin_entry() {
+    while (1) {                
+        unsigned char code[32768] = {0};
+
+        unsigned char currInputChar;
+        int charCounter = 0;
+        printf("> ");
+        while ((currInputChar = getchar()) != EOF && currInputChar != '\n') {
+            code[charCounter] = currInputChar;
+            charCounter++;
+        }
+        event_loop(charCounter, code);
+    }
+}
+
+static int parse_opt(int key, char *arg, struct argp_state *state) {
+    switch (key) {
+        case 'v': 
+            printf("UwULang %s\n", VERSION);
+            break;
+        // get from file
+        case 'f':
+        case 'l':
+            // print arg
+            // printf("File: %s\n", arg);
+            if (file_entry(arg)) {
+                return 1;
+            }
+            break;
+        case ARGP_KEY_ARG:
+            if (state->arg_num == 0) {
+                // First argument is provided
+                // printf("File: %s\n", arg);
+                file_entry(arg);
+            } else {
+                // Too many arguments
+                printf("Too many arguments provided\n");
+            }
+            break;
+        case ARGP_KEY_END:
+            if (state->arg_num < 1) {
+                // No arguments provided, use default
+                cin_entry();
+            }
+            break;
+    }
+    return 0;
+}
+
 /// Main takes in either a single file with file extension uwu
 /// or if no args are present will run interpreted on the command line
 int main(int argc, char *argv[]) {
-    if (argc == 1) {
-        // TODO: add support for multiple lines
-        printf("Welcome to UwULang shell\nUwULang is the number 1 programming language\nFind out more at https://github.com/UwULang/uwulang\n");
-        while (1) {
-            event_loop(argc, argv);
-        }
-    } else {
-        // TODO: add support for args
+    // no buffer when printing
+    setbuf(stdout, NULL);
 
-        // if -v or --version
-        if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
-            printf("UwULang %s\n", VERSION);
-            return 0;
-        }
-
-        // if -h or --help
-        if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
-            printf("UwULang %s\n", VERSION);
-            printf("Usage: uwulang [file]\n");
-            printf("Options:\n");
-            printf("  -h, --help\t\tShow this help message\n");
-            printf("  -v, --version\t\tShow version\n");
-            return 0;
-        }
-
-        event_loop(argc, argv);
-    }
-
-    return 0;
+    // if no flags
+    // if (argc == 1) {
+    //     cin_entry(argv[0]);
+    //     return 0;
+    // }
+    
+    struct argp_option options[] = {
+        { "file", 'f', "FILE", 0, ".uwu input file"},
+        { "filename", 'l', "FILE", 0, ""},
+        { 0 }
+    };
+    struct argp argp = { options, parse_opt, 0, DOC };
+    return argp_parse(&argp, argc, argv, 0, 0, 0); 
 }

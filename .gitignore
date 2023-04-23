@@ -9,3 +9,4 @@ img/plead.ai
 # builds
 /uwulang_*_all
 *.deb
+src/main
