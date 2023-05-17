@@ -189,7 +189,6 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
         case ARGP_KEY_ARG:
             if (state->arg_num == 0) {
                 // First argument is provided
-                // printf("File: %s\n", arg);
                 file_entry(arg);
             } else {
                 // Too many arguments
@@ -212,12 +211,6 @@ int main(int argc, char *argv[]) {
     // no buffer when printing
     setbuf(stdout, NULL);
 
-    // if no flags
-    // if (argc == 1) {
-    //     cin_entry(argv[0]);
-    //     return 0;
-    // }
-    
     struct argp_option options[] = {
         { "file", 'f', "FILE", 0, ".uwu input file"},
         { "filename", 'l', "FILE", 0, ""},
