@@ -11,6 +11,8 @@
 #include <string.h>
 #include <argp.h>
 
+#include "preload.h"
+
 // program version
 #define VERSION         "0.1.1"
 
@@ -172,6 +174,18 @@ void cin_entry() {
     }
 }
 
+void preload_entry() {
+    Tape t;
+    size_t initTapeSize = 8; // 8 bytes
+    init_tape(&t, initTapeSize);
+    fill_tape(&t, initTapeSize, "test2.txt");
+
+    // start loop below
+    event_loop(t.size, t.data);
+
+    tape_free(&t);
+}
+
 static int parse_opt(int key, char *arg, struct argp_state *state) {
     switch (key) {
         case 'v': 
@@ -186,9 +200,13 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
                 return 1;
             }
             break;
+        case 'p':
+            preload_entry();
+            break;
         case ARGP_KEY_ARG:
             if (state->arg_num == 0) {
                 // First argument is provided
+                // printf("File: %s\n", arg);
                 file_entry(arg);
             } else {
                 // Too many arguments
@@ -211,9 +229,16 @@ int main(int argc, char *argv[]) {
     // no buffer when printing
     setbuf(stdout, NULL);
 
+    // if no flags
+    // if (argc == 1) {
+    //     cin_entry(argv[0]);
+    //     return 0;
+    // }
+    
     struct argp_option options[] = {
         { "file", 'f', "FILE", 0, ".uwu input file"},
         { "filename", 'l', "FILE", 0, ""},
+        { "preload", 'p', "FILE", 0, ""},
         { 0 }
     };
     struct argp argp = { options, parse_opt, 0, DOC };
