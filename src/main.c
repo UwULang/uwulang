@@ -52,6 +52,68 @@ struct Block* next(struct Block* curr) {
     }
 }
 
+void init_tape(Tape *t, size_t initSize) {
+    t->data = (uint8_t *) malloc(initSize * sizeof(uint8_t));
+    t->size = 0;
+}
+
+void __tape_resize__(Tape *t, size_t *len) { /* should be used by dev only */
+    uint8_t *resize = (uint8_t *) realloc(t->data, (size_t) 16 * sizeof(uint8_t));
+    if (resize == NULL) {
+        printf("Memory reallocation failed, exiting. . .\n");
+        free(resize);
+        exit(EXIT_FAILURE);
+    }
+
+    t->data = resize;
+    *len += 16;
+    free(resize);
+}
+
+void fill_tape(Tape *t, size_t initSize, char *filename) {
+   FILE *fp;
+   uint8_t b0, b1, b2, b3; /* b for byte */
+   size_t len = initSize;
+
+    fp = fopen(filename, "r");
+    if (!fp) {
+        printf("Preload: Error opening file!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    do { /* kind of troll solution, but it works */
+        if (t->size >= len)
+            __tape_resize__(t, &len);
+        
+        b0 = fgetc(fp);
+
+        if (feof(fp)) /* lol */
+            break;        
+        
+        if (b0 == 0xf0) {
+            b1 = fgetc(fp);
+            b2 = fgetc(fp);
+            b3 = fgetc(fp);
+
+            t->data[t->size] = b0;
+            t->data[t->size + 1] = b1;
+            t->data[t->size + 2] = b2;
+            t->data[t->size + 3] = b3;
+
+            t->size += 4;
+            len += 4;
+        }
+    } while(1);
+
+    //fclose(fp);
+}
+
+void tape_free(Tape *t) {
+    free(t->data);
+    t->data = NULL;
+    t->size = 0;
+}
+
 int event_loop(int charCounter, unsigned char code[]) {
     // Use current time as seed for random generator
     srand(time(0));
@@ -174,16 +236,17 @@ void cin_entry() {
     }
 }
 
-void preload_entry() {
+int preload_entry(char* filename) {
     Tape t;
     size_t initTapeSize = 8; // 8 bytes
     init_tape(&t, initTapeSize);
-    fill_tape(&t, initTapeSize, "test2.txt");
+    fill_tape(&t, initTapeSize, filename);
 
     // start loop below
     event_loop(t.size, t.data);
 
     tape_free(&t);
+    return 0;
 }
 
 static int parse_opt(int key, char *arg, struct argp_state *state) {
@@ -201,7 +264,9 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
             }
             break;
         case 'p':
-            preload_entry();
+            if (preload_entry(arg)) {
+                return 1;
+            }
             break;
         case ARGP_KEY_ARG:
             if (state->arg_num == 0) {
