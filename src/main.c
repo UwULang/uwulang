@@ -271,7 +271,6 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
         case ARGP_KEY_ARG:
             if (state->arg_num == 0) {
                 // First argument is provided
-                // printf("File: %s\n", arg);
                 file_entry(arg);
             } else {
                 // Too many arguments
